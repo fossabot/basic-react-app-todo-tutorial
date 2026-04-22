@@ -1,0 +1,44 @@
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+}
+
+.title {
+  flex: 1 1 260px;
+  min-width: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+  font-size: 14px;
+}
+
+.select,
+.date {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+  font-size: 14px;
+}
+
+.submit {
+  padding: 8px 18px;
+  background: rgb(153, 204, 238);
+  color: #000;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

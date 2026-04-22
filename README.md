@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Todo App with AppDB
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A shared task manager built as a Domo Custom App — React + TypeScript + Redux Toolkit, backed by [AppDB](https://domo.com/docs/portal/API-Reference/app-framework-apis/AppDB-API). Stamps ownership (`ownerId` / `ownerName`) onto every todo, fetches the current user's identity and avatar, and exposes CRUD through typed Redux slices.
 
-## Available Scripts
+This repo is the companion sample for the **[Todo App with AppDB tutorial](https://domo.com/docs/portal/Apps/App-Framework/Tutorials/React/Todo-App)**.
 
-In the project directory, you can run:
+## What it demonstrates
 
-### `yarn start`
+- Scaffolding a Vite + React + TypeScript app with the [DA CLI](https://domo.com/docs/portal/Apps/App-Framework/Tools/da-cli)
+- Declaring an AppDB collection in `manifest.json` with `defaultPermission`
+- Typed `AppDBClient` + `IdentityClient` + `UserClient` service layer
+- Redux Toolkit slices with `buildCreateSlice` + `asyncThunkCreator` for async CRUD
+- Per-user ownership stamping and an avatar fallback
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project layout
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+src/
+├── main.tsx                       # Provider-wrapped app entry
+├── components/
+│   ├── App/                       # Root: kicks off loads, shows errors
+│   ├── UserHeader/                # Avatar, name, role
+│   ├── TodoForm/                  # New-todo form (stamps ownership)
+│   ├── TodoList/                  # Filter UI + list
+│   └── TodoItem/                  # Row with toggle/delete
+├── reducers/
+│   ├── createAppSlice.ts          # buildCreateSlice helper
+│   ├── index.ts                   # Store + typed hooks
+│   ├── app/slice.ts               # User identity
+│   └── todos/slice.ts             # CRUD thunks
+└── services/
+    ├── app.ts                     # AppDB + Identity + User clients
+    └── types.ts                   # TodoData, Todo, UserInfo
+```
 
-### `yarn test`
+## Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node 18+
+- The [DA CLI](https://www.npmjs.com/package/@domoinc/da) and the [Domo CLI](https://domo.com/docs/portal/Apps/App-Framework/Quickstart/Setup-and-Installation)
+- `domo login` completed against your target instance
+- An AppDB-enabled Domo instance
 
-### `yarn build`
+## Getting started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+pnpm install
+pnpm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+On first run, publish an initial design to provision the `Todos` collection and copy the `id` + `proxyId` back into `public/manifest.json`:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+pnpm upload
+```
 
-### `yarn eject`
+See the [tutorial](https://domo.com/docs/portal/Apps/App-Framework/Tutorials/React/Todo-App) for the full walk-through, including the Asset Library card-creation step.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Scripts
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Command          | Description                                           |
+| ---------------- | ----------------------------------------------------- |
+| `pnpm start`     | Vite dev server with the Domo proxy                   |
+| `pnpm build`     | Lint, test, and build for production                  |
+| `pnpm upload`    | Build and `domo publish` in one step                  |
+| `pnpm generate`  | Scaffold new components / reducers with `da generate` |
+| `pnpm test`      | Run Vitest                                            |
+| `pnpm storybook` | Launch Storybook                                      |
